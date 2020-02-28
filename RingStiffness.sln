@@ -1,0 +1,43 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.421
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingStiffness.Common", "RingStiffness.Common\RingStiffness.Common.csproj", "{73C8D795-0BB2-4766-B1F5-951AEC7121E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingStiffness.BusinessLayer", "RingStiffness.BusinessLayer\RingStiffness.BusinessLayer.csproj", "{7C88A05F-8166-464B-BDD2-671FFF9080FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RingStiffness.UI", "RingStiffness.UI\RingStiffness.UI.csproj", "{3B771B87-C809-45C8-83CB-2940D68BA398}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FATEK PLC COMMUNICATION CORE", "FATEK PLC COMMUNICATION CORE\FATEK PLC COMMUNICATION CORE.csproj", "{14D92E5C-3AE0-4525-9069-BCF568C002F1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73C8D795-0BB2-4766-B1F5-951AEC7121E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73C8D795-0BB2-4766-B1F5-951AEC7121E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73C8D795-0BB2-4766-B1F5-951AEC7121E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73C8D795-0BB2-4766-B1F5-951AEC7121E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C88A05F-8166-464B-BDD2-671FFF9080FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C88A05F-8166-464B-BDD2-671FFF9080FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C88A05F-8166-464B-BDD2-671FFF9080FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C88A05F-8166-464B-BDD2-671FFF9080FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3B771B87-C809-45C8-83CB-2940D68BA398}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3B771B87-C809-45C8-83CB-2940D68BA398}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3B771B87-C809-45C8-83CB-2940D68BA398}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3B771B87-C809-45C8-83CB-2940D68BA398}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14D92E5C-3AE0-4525-9069-BCF568C002F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14D92E5C-3AE0-4525-9069-BCF568C002F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14D92E5C-3AE0-4525-9069-BCF568C002F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14D92E5C-3AE0-4525-9069-BCF568C002F1}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AF13D45D-1BCD-4346-B397-4A5416567341}
+	EndGlobalSection
+EndGlobal
