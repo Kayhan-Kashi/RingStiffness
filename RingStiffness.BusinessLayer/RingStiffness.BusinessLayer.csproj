@@ -51,6 +51,7 @@
     <Compile Include="MockObjects\MockLoadCell.cs" />
     <Compile Include="MockObjects\MockPLCWrapper.cs" />
     <Compile Include="MockObjects\MockServoMotor.cs" />
+    <Compile Include="MockObjects\MockTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

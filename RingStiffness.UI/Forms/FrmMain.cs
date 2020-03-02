@@ -19,6 +19,7 @@ namespace RingStiffness.UI.Forms
         private System.Threading.Timer timer;
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan currentTimeElapsed;
+        private MockTest test = new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 5, TestTotalSeconds = 30, TestInputWeight = 15 };
 
 
         public void StartSplachScreen()
@@ -46,7 +47,9 @@ namespace RingStiffness.UI.Forms
 
         private void btnUp_Click(object sender, EventArgs e)
         {
-            plc.ServoMotor.Up();
+            //test.TouchPipe();
+            //plc.ServoMotor.Up();
+            test.StartTest();
         }
 
         private void btnDown_Click(object sender, EventArgs e)

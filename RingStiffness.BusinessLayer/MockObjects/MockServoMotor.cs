@@ -1,6 +1,7 @@
 ﻿using RingStiffness.Common.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -9,20 +10,26 @@ namespace RingStiffness.BusinessLayer.MockObjects
     public class MockServoMotor : IServoMotor
     {
         public IPLCInterface PLCInterface => throw new NotImplementedException();
+        public bool IsMotorStopped { get; set; }
+        public string MotorDirection { get; set; }
 
         public void Down()
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("Motor is going down.");
+            MotorDirection = "Down";
+            IsMotorStopped = false;
         }
 
         public void Stop()
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("Motor has stopped.");
         }
 
         public void Up()
         {
-            throw new NotImplementedException();
+            Debug.WriteLine("Motor is going up.");
+            IsMotorStopped = false;
+            MotorDirection = "Up";
         }
     }
 }

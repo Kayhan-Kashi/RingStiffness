@@ -12,6 +12,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
         private IServoMotor _servoMotor;
 
 
+
         public IServoMotor ServoMotor
         {
             get

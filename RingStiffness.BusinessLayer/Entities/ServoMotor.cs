@@ -9,6 +9,8 @@ namespace RingStiffness.BusinessLayer.Entities
 {
     public class ServoMotor : HardwareController, IServoMotor
     {
+        public bool IsMotorStopped { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string MotorDirection { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         public ServoMotor(IPLCInterface plcInterface) : base(plcInterface)
         {
