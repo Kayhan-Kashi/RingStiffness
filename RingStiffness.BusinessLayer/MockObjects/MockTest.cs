@@ -16,94 +16,115 @@ namespace RingStiffness.BusinessLayer.MockObjects
         public double TestInputWeight { get; set; }
         private Stopwatch testSecondCounter = new Stopwatch();
         private bool isTestStarted = false;
+        private bool isTestFinished = false;
 
         //private int second = 0;
-        System.Timers.Timer touch_timer = new System.Timers.Timer();
-        System.Timers.Timer test_operation = new System.Timers.Timer();
-        System.Timers.Timer test_preperation = new System.Timers.Timer();
+        System.Timers.Timer touchPipe_timer = new System.Timers.Timer();
+        System.Timers.Timer test_operation_timer = new System.Timers.Timer();
+        System.Timers.Timer reach_test_properForce_timer = new System.Timers.Timer()
+                
+
+        public double CurrentTestForce { get; set; }
+        public int TestPassedSecond { get; set; }
 
         public IPLCWrapper PLCCommand { get; set; }
 
         public void TouchPipe()
         {
-            touch_timer.Interval = 1000;
-            touch_timer.Elapsed += OnLoadCellReadForce;
             PLCCommand.ServoMotor.Down();
-            touch_timer.Enabled = true;    
+            touchPipe_timer.Enabled = true;    
         }
 
-        private void OnLoadCellReadForce(Object source, ElapsedEventArgs e)
+        private void MoveServoMotorUntilPipeIsTouched(Object source, ElapsedEventArgs e)
         {
             var forceSensed = PLCCommand.LoadCell.Force;
+            CurrentTestForce = forceSensed;
             //Debug.WriteLine(e.SignalTime.ToShortDateString());
             //second += 1;
-            Debug.WriteLine("Force is : " + forceSensed);
-            Debug.WriteLine("//////////////");
+
             if (forceSensed >= TouchForceExpected)
             {
                 //Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
+          
+                Debug.WriteLine("//////////////////////////////MoveServoMotorUntilPipeIsTouched/////////////////////////////////////////////");
+                Debug.WriteLine("Force is : " + forceSensed);
                 Debug.WriteLine("Pipe has been touched.");
-                touch_timer.Enabled = false;
-                PLCCommand.ServoMotor.Stop();        
+                Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
+                touchPipe_timer.Enabled = false;
+                PLCCommand.ServoMotor.Stop();
+                touchPipe_timer.Dispose();
+                ReachTestProperForce();
+     
             }
-        }
-
-        public void StartTestOperation()
-        {
-            test_operation.Enabled = true;
-            testSecondCounter.Start();
-        }
-
-        public void StartTestPreperation()
-        {
-            test_preperation.Enabled = true;
-        }
-
-        private void OnPreperationServoMove(Object source, ElapsedEventArgs e)
-        {
-            if (PLCCommand.LoadCell.Force < TestInputWeight && !isTestStarted)  // Means still proper weight for the test has not been sensed 
-            {                                                                   // after touching the pipe and hence test has not been started
-                Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-                Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
-                PLCCommand.ServoMotor.Down();
-            }
-
-            if (PLCCommand.LoadCell.Force >= TestInputWeight && !isTestStarted)  //Means proper weight for the test has been reached and so the test has to be started.
+            else
             {
-                test_preperation.Enabled = false;
+                Debug.WriteLine("//////////////////////////////MoveServoMotorUntilPipeIsTouched/////////////////////////////////////////////");
+                Debug.WriteLine("Force is : " + forceSensed);
+                Debug.WriteLine("////still not touched//////");
+                Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
+            }
+
+        }
+
+        private void MoveServoMotorUntilTestProperForce(Object source, ElapsedEventArgs e)
+        {
+            double currentForce = PLCCommand.LoadCell.Force;
+            CurrentTestForce = currentForce;
+
+            if (currentForce < TestInputWeight && !isTestStarted)  // Means still proper weight for the test has not been sensed 
+            {
+                Debug.WriteLine("/////////////////////////////MoveServoMotorUntilTestProperForce/////////////////////////////////////");
+                // after touching the pipe and hence test has not been started
+                Debug.WriteLine("Time is : " + GetTestSecondsPassed());
+                Debug.WriteLine("Force is : " + currentForce);
+                Debug.WriteLine("////test proper force not reached yet//////");
+                PLCCommand.ServoMotor.Down();
+                Debug.WriteLine("//////////////////////////////MoveServoMotorUntilTestProperForce///////////////////////////////////////");
+            }
+
+            if (currentForce >= TestInputWeight && !isTestStarted)  //Means proper weight for the test has been reached and so the test has to be started.
+            {
+                Debug.WriteLine("//////////////////////////MoveServoMotorUntilTestProperForce/////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Stop();
                 Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-                Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);       
-                StartTestOperation();                   
+                Debug.WriteLine("Force is : " + currentForce);
+                Debug.WriteLine("////test proper force reached //////");
+                Debug.WriteLine("//////////////////////////MoveServoMotorUntilTestProperForce////////////////////////////////////////////");
+                reach_test_properForce_timer.Enabled = false;
+                StartTestOperation();
+                reach_test_properForce_timer.Dispose();
             }
         }
 
-        public void StartTest()
+        private void TestingOperation(Object source, ElapsedEventArgs e)
         {
-            ConfigTest();      
-            TouchPipe();
-            StartTestPreperation();
-        }
+            double currentForce = PLCCommand.LoadCell.Force;
+            TestPassedSecond = GetTestSecondsPassed();
+            CurrentTestForce = currentForce;
 
-        public void StopTestOperation()
-        {
-            test_operation.Enabled = false;
-        }
-
-        private int GetTestSecondsPassed()
-        {
-            return testSecondCounter.Elapsed.Seconds;
-        }
-
-        private void OnTestServoMove(Object source, ElapsedEventArgs e)
-        {
-            if (GetTestSecondsPassed() >= TestTotalSeconds)                     // Test total seconds has been reached so the test has to be stopped
+            if (isTestFinished)
             {
-                Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-                Debug.WriteLine("Test Finished");
-                Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
+                testSecondCounter.Stop();
+                test_operation_timer.Dispose();
                 StopTestOperation();
                 testSecondCounter.Stop();
+                return;
+            }
+
+            if (TestPassedSecond >= TestTotalSeconds )                     // Test total seconds has been reached so the test has to be stopped
+            {
+            
+                StopTestOperation();
+                Debug.WriteLine("///////////////////////////TestingOperation////////////////////////////////////////////////");
+                PLCCommand.ServoMotor.Stop();
+                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Test Finished");
+                Debug.WriteLine("Force is : " + currentForce);
+                testSecondCounter.Stop();
+                Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
+             
+                test_operation_timer.Dispose();
+                isTestFinished = true;
             }
             //if (PLCCommand.LoadCell.Force >= TestInputWeight && !isTestStarted)  //Means proper weight for the test has been reached and so the test has to be started.
             //{
@@ -112,35 +133,69 @@ namespace RingStiffness.BusinessLayer.MockObjects
             //    Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
             //    PLCCommand.ServoMotor.Stop();
             //}
-    
 
-            if (PLCCommand.LoadCell.Force < TestInputWeight && isTestStarted)  // Means proper weight was reached before and hence test had been started but the weight                                                                                                      
-            {                                                                  // has been decreased due to deflection
-                Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-                Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
+
+            if (currentForce < TestInputWeight && !isTestFinished)  // Means proper weight was reached before and hence test had been started but the weight                                                                                                      
+            {
+                Debug.WriteLine("///////////////////////////TestingOperation/////////////////////////////////////////////////////");
+                // has been decreased due to deflection
+                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Force is : " + currentForce);
+                Debug.WriteLine("//// force decreased //////");
+                Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Down();
             }
-            if (PLCCommand.LoadCell.Force >= TestInputWeight && isTestStarted)  // Means excessive force has been applied hence the motor has to stop until the force decreases 
-            {                                                                   
-                Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-                Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
+            if (currentForce >= TestInputWeight && !isTestFinished)  // Means excessive force has been applied hence the motor has to stop until the force decreases 
+            {
+                Debug.WriteLine("///////////////////TestingOperation///////////////////////////////////////////////////////////");
+                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Force is : " + currentForce);
+                Debug.WriteLine("//// force is above proper amount //////");
+                Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Stop();
             }
         }
 
-
-        public void ConfigTest()
+        public void StartTestOperation()
         {
-            test_operation.Elapsed += OnTestServoMove;
-            test_operation.Interval = 1000;
+            test_operation_timer.Enabled = true;
+            testSecondCounter.Start();
+        }
 
-            test_preperation.Elapsed += OnPreperationServoMove;
-            test_preperation.Interval = 1000;
+        public void ReachTestProperForce()
+        {
+            reach_test_properForce_timer.Enabled = true;
+        }
+
+        public void PrepareAndStartTheTest()
+        {
+            ConfigTest();      
+            TouchPipe();
+            //ReachTestProperForce();
         }
 
 
+        public void StopTestOperation()
+        {
+            test_operation_timer.Enabled = false;
+        }
 
+        private int GetTestSecondsPassed()
+        {
+            return testSecondCounter.Elapsed.Seconds;
+        }
 
+        public void ConfigTest()
+        {
+            touchPipe_timer.Interval = 1000;
+            touchPipe_timer.Elapsed += MoveServoMotorUntilPipeIsTouched;
+
+            test_operation_timer.Elapsed += TestingOperation;
+            test_operation_timer.Interval = 1000;
+
+            reach_test_properForce_timer.Elapsed += MoveServoMotorUntilTestProperForce;
+            reach_test_properForce_timer.Interval = 1000;
+        }
     }
 
 }

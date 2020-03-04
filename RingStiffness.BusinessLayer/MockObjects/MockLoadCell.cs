@@ -1,6 +1,7 @@
 ﻿using RingStiffness.Common.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -16,35 +17,102 @@ namespace RingStiffness.BusinessLayer.MockObjects
         {
             get
             {
-                if(num >= 0 && num <= 5 && numOfRepeat > 2)
-                {
-                    numOfRepeat++;
-                   
-                }
-                if (num >= 0 && num <= 5 && numOfRepeat == 2)
-                {                  
-                    num += 1;
-                }
-                if (num >= 6 && num <= 8 && numOfRepeat < 6)
-                {
-                    numOfRepeat++;
-                }
-                if (num >= 6 && num <= 9 && numOfRepeat == 6)
-                {
-                    num++;
-                }
-                if (num == 10 && numOfRepeat < 10)
-                {
-                    numOfRepeat++;
-                }
-                if (num >= 10 && numOfRepeat == 10)
-                {
-                    num++;
-                    numOfRepeat++;
-                }
+                Debug.WriteLine("loadcell time is : " + second);
 
+                if (second == 1)
+                {
+                    second++;
+                    return 1;
+                }
+                if (second == 2)
+                {
+                    second++;
+                    return 2;
+                }
+                if (second == 3)
+                {
+                    second++;
+                    return 3;
+                }
+                if (second == 4)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 5)
+                {
+                    second++;
+                    return 5;
+                }
+                if (second == 6)
+                {
+                    second++;
+                    return 5;
+                }
+                if (second == 7 )
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 8)
+                {
+                    second++;
+                    return 5;
+                }
+                if (second == 9)
+                {
+                    second++;
+                    return 6;
+                }
+                if (second == 10)
+                {
+                    second++;
+                    return 5;
+                }
+                if (second == 11)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 12)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 13)
+                {
+                    second++;
+                    return 6;
+                }
+                if (second == 14)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 15)
+                {
+                    second++;
+                    return 5;
+                }
+                if (second == 16)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 17)
+                {
+                    second++;
+                    return 4;
+                }
+                if (second == 18)
+                {
+                    second++;
+                    return 5;
+                }
+                second++;
+                return 0;
 
-                return num;
+                //return num;
                 //return 5;
                 //return random.NextDouble() * 10;
             }

@@ -19,7 +19,7 @@ namespace RingStiffness.UI.Forms
         private System.Threading.Timer timer;
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan currentTimeElapsed;
-        private MockTest test = new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 5, TestTotalSeconds = 30, TestInputWeight = 15 };
+        private MockTest test = new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 3, TestTotalSeconds = 15, TestInputWeight = 5 };
 
 
         public void StartSplachScreen()
@@ -35,6 +35,7 @@ namespace RingStiffness.UI.Forms
 
             InitializeComponent();
             splashThread.Abort();
+       
 
         }
 
@@ -49,7 +50,7 @@ namespace RingStiffness.UI.Forms
         {
             //test.TouchPipe();
             //plc.ServoMotor.Up();
-            test.StartTest();
+            test.PrepareAndStartTheTest();
         }
 
         private void btnDown_Click(object sender, EventArgs e)
@@ -67,7 +68,8 @@ namespace RingStiffness.UI.Forms
             string text = plc.LoadCell.Force.ToString();
             currentTimeElapsed = stopWatch.Elapsed;
             lblForce.Text = text;
-            Draw(plc.LoadCell.Force, currentTimeElapsed.TotalSeconds);
+            //Draw(plc.LoadCell.Force, currentTimeElapsed.TotalSeconds);
+            Draw(test.CurrentTestForce, test.TestPassedSecond);
         }
 
         public void Draw(double force, double time)
@@ -78,8 +80,10 @@ namespace RingStiffness.UI.Forms
         private void btnStart_Click(object sender, EventArgs e)
         {
             stopWatch.Start();
+            test.PrepareAndStartTheTest();
             var startTimeSpan = TimeSpan.Zero;
             var periodTimeSpan = TimeSpan.FromMilliseconds(300);
+            test.PrepareAndStartTheTest();
 
             timer = new System.Threading.Timer((ce) =>
             {
