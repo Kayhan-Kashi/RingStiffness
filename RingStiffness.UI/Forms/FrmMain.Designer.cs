@@ -44,9 +44,14 @@
             this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.btnStartDraw = new System.Windows.Forms.Button();
             this.btnStopDraw = new System.Windows.Forms.Button();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.clmnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnForce = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnDeflection = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -187,12 +192,56 @@
             this.btnStopDraw.UseVisualStyleBackColor = true;
             this.btnStopDraw.Click += new System.EventHandler(this.btnStopDraw_Click);
             // 
+            // dataGridView1
+            // 
+            this.dataGridView1.AllowUserToAddRows = false;
+            this.dataGridView1.AllowUserToDeleteRows = false;
+            this.dataGridView1.AllowUserToResizeColumns = false;
+            this.dataGridView1.AllowUserToResizeRows = false;
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.clmnTime,
+            this.clmnForce,
+            this.clmnDeflection});
+            this.dataGridView1.Location = new System.Drawing.Point(833, 12);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersVisible = false;
+            this.dataGridView1.Size = new System.Drawing.Size(201, 494);
+            this.dataGridView1.TabIndex = 62;
+            // 
+            // clmnTime
+            // 
+            this.clmnTime.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.clmnTime.DataPropertyName = "Time";
+            this.clmnTime.HeaderText = "Time";
+            this.clmnTime.MinimumWidth = 3;
+            this.clmnTime.Name = "clmnTime";
+            this.clmnTime.ReadOnly = true;
+            this.clmnTime.Width = 40;
+            // 
+            // clmnForce
+            // 
+            this.clmnForce.DataPropertyName = "Force";
+            this.clmnForce.HeaderText = "Force";
+            this.clmnForce.Name = "clmnForce";
+            this.clmnForce.ReadOnly = true;
+            this.clmnForce.Width = 80;
+            // 
+            // clmnDeflection
+            // 
+            this.clmnDeflection.DataPropertyName = "Deflection";
+            this.clmnDeflection.HeaderText = "Deflection";
+            this.clmnDeflection.Name = "clmnDeflection";
+            this.clmnDeflection.ReadOnly = true;
+            this.clmnDeflection.Width = 80;
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(812, 517);
+            this.ClientSize = new System.Drawing.Size(1143, 536);
+            this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnStopDraw);
             this.Controls.Add(this.btnStartDraw);
             this.Controls.Add(this.chart1);
@@ -206,6 +255,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -224,5 +274,9 @@
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
         private System.Windows.Forms.Button btnStartDraw;
         private System.Windows.Forms.Button btnStopDraw;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmnTime;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmnForce;
+        private System.Windows.Forms.DataGridViewTextBoxColumn clmnDeflection;
     }
 }

@@ -17,15 +17,27 @@ namespace RingStiffness.BusinessLayer.MockObjects
         private Stopwatch testSecondCounter = new Stopwatch();
         private bool isTestStarted = false;
         private bool isTestFinished = false;
+        public List<TestData> TestResult;
+
+        public MockTest()
+        {
+            TestResult = new List<TestData>();
+        }
+
+        private void AddTestData(double force, int second ,DateTime time, double deflection)
+        {
+            TestResult.Add(new TestData { Force = force, Second = second, Deflection = deflection });
+        }
+
 
         //private int second = 0;
         System.Timers.Timer touchPipe_timer = new System.Timers.Timer();
         System.Timers.Timer test_operation_timer = new System.Timers.Timer();
-        System.Timers.Timer reach_test_properForce_timer = new System.Timers.Timer()
+        System.Timers.Timer reach_test_properForce_timer = new System.Timers.Timer();
                 
 
         public double CurrentTestForce { get; set; }
-        public int TestPassedSecond { get; set; }
+        public int testPassedSecond { get; set; }
 
         public IPLCWrapper PLCCommand { get; set; }
 
@@ -99,7 +111,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
         private void TestingOperation(Object source, ElapsedEventArgs e)
         {
             double currentForce = PLCCommand.LoadCell.Force;
-            TestPassedSecond = GetTestSecondsPassed();
+            testPassedSecond = GetTestSecondsPassed();
             CurrentTestForce = currentForce;
 
             if (isTestFinished)
@@ -111,47 +123,45 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 return;
             }
 
-            if (TestPassedSecond >= TestTotalSeconds )                     // Test total seconds has been reached so the test has to be stopped
+            if (testPassedSecond >= TestTotalSeconds )                     // Test total seconds has been reached so the test has to be stopped
             {
             
                 StopTestOperation();
                 Debug.WriteLine("///////////////////////////TestingOperation////////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Stop();
-                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Time is : " + testPassedSecond);
                 Debug.WriteLine("Test Finished");
                 Debug.WriteLine("Force is : " + currentForce);
+                AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
                 testSecondCounter.Stop();
+                DrawOutput(currentForce, testPassedSecond);
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
              
                 test_operation_timer.Dispose();
                 isTestFinished = true;
             }
-            //if (PLCCommand.LoadCell.Force >= TestInputWeight && !isTestStarted)  //Means proper weight for the test has been reached and so the test has to be started.
-            //{
-            //    StartTestOperation();
-            //    Debug.WriteLine("Time is : " + GetTestSecondsPassed());
-            //    Debug.WriteLine("Force is : " + PLCCommand.LoadCell.Force);
-            //    PLCCommand.ServoMotor.Stop();
-            //}
-
 
             if (currentForce < TestInputWeight && !isTestFinished)  // Means proper weight was reached before and hence test had been started but the weight                                                                                                      
             {
                 Debug.WriteLine("///////////////////////////TestingOperation/////////////////////////////////////////////////////");
                 // has been decreased due to deflection
-                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Time is : " + testPassedSecond);
                 Debug.WriteLine("Force is : " + currentForce);
                 Debug.WriteLine("//// force decreased //////");
+                AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
+                DrawOutput(currentForce, testPassedSecond);
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Down();
             }
             if (currentForce >= TestInputWeight && !isTestFinished)  // Means excessive force has been applied hence the motor has to stop until the force decreases 
             {
                 Debug.WriteLine("///////////////////TestingOperation///////////////////////////////////////////////////////////");
-                Debug.WriteLine("Time is : " + TestPassedSecond);
+                Debug.WriteLine("Time is : " + testPassedSecond);
                 Debug.WriteLine("Force is : " + currentForce);
                 Debug.WriteLine("//// force is above proper amount //////");
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
+                AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
+                DrawOutput(currentForce, testPassedSecond);
                 PLCCommand.ServoMotor.Stop();
             }
         }
@@ -174,7 +184,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
             //ReachTestProperForce();
         }
 
-
+        public LetResultOut DrawOutput;
         public void StopTestOperation()
         {
             test_operation_timer.Enabled = false;
@@ -198,4 +208,8 @@ namespace RingStiffness.BusinessLayer.MockObjects
         }
     }
 
+    public delegate void LetResultOut(double force, int second);  
+
 }
+
+

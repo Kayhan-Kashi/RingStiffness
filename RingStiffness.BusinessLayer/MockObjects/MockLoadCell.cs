@@ -110,7 +110,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
                     return 5;
                 }
                 second++;
-                return 0;
+                return 6;
 
                 //return num;
                 //return 5;

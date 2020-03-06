@@ -48,6 +48,7 @@
     <Compile Include="Interfaces\IPLCInterface.cs" />
     <Compile Include="Interfaces\IPLCWrapper.cs" />
     <Compile Include="Interfaces\IServoMotor.cs" />
+    <Compile Include="Interfaces\TestData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

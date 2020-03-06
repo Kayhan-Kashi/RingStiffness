@@ -20,6 +20,7 @@ namespace RingStiffness.UI.Forms
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan currentTimeElapsed;
         private MockTest test = new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 3, TestTotalSeconds = 15, TestInputWeight = 5 };
+        
 
 
         public void StartSplachScreen()
@@ -44,6 +45,7 @@ namespace RingStiffness.UI.Forms
         {
             //plc = new FatekPLCWrapper("COM7", 9600
             plc = new MockPLCWrapper();
+            test.DrawOutput += Draw;
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -69,12 +71,27 @@ namespace RingStiffness.UI.Forms
             currentTimeElapsed = stopWatch.Elapsed;
             lblForce.Text = text;
             //Draw(plc.LoadCell.Force, currentTimeElapsed.TotalSeconds);
-            Draw(test.CurrentTestForce, test.TestPassedSecond);
+            Draw(test.CurrentTestForce, test.testPassedSecond);
         }
 
         public void Draw(double force, double time)
         {
             chart1.Series["force–time"].Points.AddXY(time, force);
+        }
+
+        public void Draw(double force, int time)
+        {
+            if (this.chart1.InvokeRequired)
+            {
+                LetResultOut deleg = new LetResultOut(Draw);
+                this.Invoke(deleg, new object[] { force, time });
+            }
+            else
+            {
+                chart1.Series["force–time"].Points.AddXY(time, force);
+                dataGridView1.Rows.Add(time.ToString(), force.ToString(),"");
+            }
+            
         }
 
         private void btnStart_Click(object sender, EventArgs e)
