@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RingStiffness.Common.Interfaces
+namespace RingStiffness.BusinessLayer.Entities
 {
     public class TestData
     {

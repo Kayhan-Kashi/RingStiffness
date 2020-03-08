@@ -1,4 +1,5 @@
-﻿using RingStiffness.Common.Interfaces;
+﻿using RingStiffness.BusinessLayer.Entities;
+using RingStiffness.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -110,6 +111,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
 
         private void TestingOperation(Object source, ElapsedEventArgs e)
         {
+            double deflection = PLCCommand.Extensiometer.Displacement;
             double currentForce = PLCCommand.LoadCell.Force;
             testPassedSecond = GetTestSecondsPassed();
             CurrentTestForce = currentForce;
@@ -132,9 +134,12 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 Debug.WriteLine("Time is : " + testPassedSecond);
                 Debug.WriteLine("Test Finished");
                 Debug.WriteLine("Force is : " + currentForce);
-                AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
+                AddTestData(currentForce, testPassedSecond, new DateTime(), deflection);
                 testSecondCounter.Stop();
-                DrawOutput(currentForce, testPassedSecond);
+                DrawForce(testPassedSecond, currentForce);
+                DrawDeflection(testPassedSecond, deflection);
+                FillGridView(testPassedSecond, currentForce, deflection);
+
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
              
                 test_operation_timer.Dispose();
@@ -149,7 +154,9 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 Debug.WriteLine("Force is : " + currentForce);
                 Debug.WriteLine("//// force decreased //////");
                 AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
-                DrawOutput(currentForce, testPassedSecond);
+                DrawForce(testPassedSecond, currentForce);
+                DrawDeflection(testPassedSecond, deflection);
+                FillGridView(testPassedSecond, currentForce, deflection);
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 PLCCommand.ServoMotor.Down();
             }
@@ -161,7 +168,9 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 Debug.WriteLine("//// force is above proper amount //////");
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 AddTestData(currentForce, testPassedSecond, new DateTime(), 0);
-                DrawOutput(currentForce, testPassedSecond);
+                DrawForce(testPassedSecond, currentForce);
+                DrawDeflection(testPassedSecond, deflection);
+                FillGridView(testPassedSecond, currentForce, deflection);
                 PLCCommand.ServoMotor.Stop();
             }
         }
@@ -184,7 +193,11 @@ namespace RingStiffness.BusinessLayer.MockObjects
             //ReachTestProperForce();
         }
 
-        public LetResultOut DrawOutput;
+        public LetResultOut DrawForce;
+        public LetResultOut DrawDeflection;
+        public LetResultInGridOut FillGridView;
+
+
         public void StopTestOperation()
         {
             test_operation_timer.Enabled = false;
@@ -208,8 +221,8 @@ namespace RingStiffness.BusinessLayer.MockObjects
         }
     }
 
-    public delegate void LetResultOut(double force, int second);  
-
+    public delegate void LetResultOut(int param1, double param2);
+    public delegate void LetResultInGridOut(int param1, double param2, double param3);
 }
 
 

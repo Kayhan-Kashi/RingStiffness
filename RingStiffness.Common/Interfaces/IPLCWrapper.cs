@@ -9,6 +9,7 @@ namespace RingStiffness.Common.Interfaces
     {
         IServoMotor ServoMotor { get; }
         ILoadCell LoadCell { get; }
+        IExtensiometer Extensiometer { get; }
         IPLCInterface PLCInterface { get; }
     }
 }

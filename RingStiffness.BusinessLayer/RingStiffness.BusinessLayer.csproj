@@ -48,6 +48,9 @@
     <Compile Include="Entities\HardwareController.cs" />
     <Compile Include="Entities\LoadCell.cs" />
     <Compile Include="Entities\ServoMotor.cs" />
+    <Compile Include="Entities\TestData.cs" />
+    <Compile Include="MockObjects\MockEncoder.cs" />
+    <Compile Include="MockObjects\MockExtensiometer.cs" />
     <Compile Include="MockObjects\MockLoadCell.cs" />
     <Compile Include="MockObjects\MockPLCWrapper.cs" />
     <Compile Include="MockObjects\MockServoMotor.cs" />

@@ -10,8 +10,19 @@ namespace RingStiffness.BusinessLayer.MockObjects
     {
         private ILoadCell _loadCell;
         private IServoMotor _servoMotor;
+        private IExtensiometer _extensiometer;
 
-
+        public IExtensiometer Extensiometer
+        {
+            get
+            {
+                if (_extensiometer == null)
+                {
+                    _extensiometer = new MockExtensiometer();
+                }
+                return _extensiometer;
+            }
+        }
 
         public IServoMotor ServoMotor
         {

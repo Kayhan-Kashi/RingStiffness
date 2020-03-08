@@ -45,7 +45,9 @@ namespace RingStiffness.UI.Forms
         {
             //plc = new FatekPLCWrapper("COM7", 9600
             plc = new MockPLCWrapper();
-            test.DrawOutput += Draw;
+            test.DrawForce += Draw;
+            test.DrawDeflection += DrawDeflection;
+            test.FillGridView += FillGrid;
         }
 
         private void btnUp_Click(object sender, EventArgs e)
@@ -74,24 +76,61 @@ namespace RingStiffness.UI.Forms
             Draw(test.CurrentTestForce, test.testPassedSecond);
         }
 
-        public void Draw(double force, double time)
+        public void Draw(double time ,double force)
         {
             chart1.Series["force–time"].Points.AddXY(time, force);
+           
         }
 
-        public void Draw(double force, int time)
+        public void DrawDeflection( double time , double deflection)
+        {
+            chart1.Series["deflection-time"].Points.AddXY(time, deflection);
+
+        }
+
+        public void Draw(int time, double force)
         {
             if (this.chart1.InvokeRequired)
             {
                 LetResultOut deleg = new LetResultOut(Draw);
-                this.Invoke(deleg, new object[] { force, time });
+                this.Invoke(deleg, new object[] { time, force  });
             }
             else
             {
                 chart1.Series["force–time"].Points.AddXY(time, force);
-                dataGridView1.Rows.Add(time.ToString(), force.ToString(),"");
+              
             }
             
+        }
+
+        public void DrawDeflection(int time, double deflection)
+        {
+            if (this.chart1.InvokeRequired)
+            {
+                LetResultOut deleg = new LetResultOut(DrawDeflection);
+                this.Invoke(deleg, new object[] { time, deflection  });
+            }
+            else
+            {
+                chart1.Series["deflection-time"].Points.AddXY(time, deflection);
+                //dataGridView1.Rows.Add(time.ToString(), force.ToString(), "");
+            }
+
+        }
+
+        public void FillGrid(int time, double force, double deflection)
+        {
+            if (this.chart1.InvokeRequired)
+            {
+                LetResultInGridOut deleg = new LetResultInGridOut(FillGrid);
+                this.Invoke(deleg, new object[] { time, force, deflection });
+            }
+            else
+            {
+                //chart1.Series["deflection-time"].Points.AddXY(time, deflection);
+                dataGridView1.Rows.Add(time.ToString(), force.ToString(), deflection);
+            }
+
         }
 
         private void btnStart_Click(object sender, EventArgs e)

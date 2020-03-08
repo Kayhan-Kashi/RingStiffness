@@ -49,5 +49,7 @@ namespace RingStiffness.BusinessLayer.Entities
                 return _loadCell;
             }
         }
+
+        public IExtensiometer Extensiometer => throw new NotImplementedException();
     }
 }
