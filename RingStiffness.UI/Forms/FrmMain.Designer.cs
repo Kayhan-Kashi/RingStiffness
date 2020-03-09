@@ -49,10 +49,13 @@
             this.clmnTime = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnForce = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnDeflection = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -107,7 +110,7 @@
             this.groupBox2.Controls.Add(this.label1);
             this.groupBox2.Location = new System.Drawing.Point(476, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(266, 87);
+            this.groupBox2.Size = new System.Drawing.Size(285, 100);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             // 
@@ -159,7 +162,7 @@
             this.chart1.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(48, 141);
+            this.chart1.Location = new System.Drawing.Point(12, 118);
             this.chart1.Name = "chart1";
             series1.ChartArea = "ChartArea1";
             series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -173,13 +176,13 @@
             series2.YAxisType = System.Windows.Forms.DataVisualization.Charting.AxisType.Secondary;
             this.chart1.Series.Add(series1);
             this.chart1.Series.Add(series2);
-            this.chart1.Size = new System.Drawing.Size(492, 344);
+            this.chart1.Size = new System.Drawing.Size(1014, 501);
             this.chart1.TabIndex = 60;
             this.chart1.TabStop = false;
             // 
             // btnStartDraw
             // 
-            this.btnStartDraw.Location = new System.Drawing.Point(628, 167);
+            this.btnStartDraw.Location = new System.Drawing.Point(922, 12);
             this.btnStartDraw.Name = "btnStartDraw";
             this.btnStartDraw.Size = new System.Drawing.Size(104, 42);
             this.btnStartDraw.TabIndex = 3;
@@ -189,7 +192,7 @@
             // 
             // btnStopDraw
             // 
-            this.btnStopDraw.Location = new System.Drawing.Point(628, 234);
+            this.btnStopDraw.Location = new System.Drawing.Point(922, 63);
             this.btnStopDraw.Name = "btnStopDraw";
             this.btnStopDraw.Size = new System.Drawing.Size(104, 42);
             this.btnStopDraw.TabIndex = 61;
@@ -208,10 +211,10 @@
             this.clmnTime,
             this.clmnForce,
             this.clmnDeflection});
-            this.dataGridView1.Location = new System.Drawing.Point(833, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(1044, 12);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(201, 494);
+            this.dataGridView1.Size = new System.Drawing.Size(201, 607);
             this.dataGridView1.TabIndex = 62;
             // 
             // clmnTime
@@ -240,12 +243,29 @@
             this.clmnDeflection.ReadOnly = true;
             this.clmnDeflection.Width = 80;
             // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 626);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(1257, 22);
+            this.statusStrip1.TabIndex = 63;
+            // 
+            // toolStripStatusLabel
+            // 
+            this.toolStripStatusLabel.Name = "toolStripStatusLabel";
+            this.toolStripStatusLabel.Size = new System.Drawing.Size(67, 17);
+            this.toolStripStatusLabel.Text = "sample text";
+            // 
             // FrmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(1143, 536);
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
+            this.ClientSize = new System.Drawing.Size(1257, 648);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.btnStopDraw);
             this.Controls.Add(this.btnStartDraw);
@@ -255,13 +275,17 @@
             this.Name = "FrmMain";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FrmMain";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.groupBox1.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -283,5 +307,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnTime;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnForce;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnDeflection;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
     }
 }

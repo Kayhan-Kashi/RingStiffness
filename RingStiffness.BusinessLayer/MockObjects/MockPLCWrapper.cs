@@ -12,6 +12,16 @@ namespace RingStiffness.BusinessLayer.MockObjects
         private IServoMotor _servoMotor;
         private IExtensiometer _extensiometer;
 
+        public MockPLCWrapper(Action<string> action)
+        {
+            Action = action;
+        }
+
+        public MockPLCWrapper()
+        {
+
+        }
+
         public IExtensiometer Extensiometer
         {
             get
@@ -31,6 +41,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 if (_servoMotor == null)
                 {
                     _servoMotor = new MockServoMotor();
+                    ((IStatusWritable)_servoMotor).WriteStatus = Action;
                 }
                 return _servoMotor;
             }
@@ -42,11 +53,13 @@ namespace RingStiffness.BusinessLayer.MockObjects
             {
                 if (_loadCell == null)
                 {
-                    _loadCell = new MockLoadCell();
+                    _loadCell = new MockLoadCell(Action);
                 }
                 return _loadCell;
             }
         }
+
+        public Action<string> Action;
 
         public IPLCInterface PLCInterface => throw new NotImplementedException();
     }

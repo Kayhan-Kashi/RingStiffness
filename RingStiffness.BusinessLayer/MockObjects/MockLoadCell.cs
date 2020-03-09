@@ -13,11 +13,17 @@ namespace RingStiffness.BusinessLayer.MockObjects
         private static int num = 0;
         private static int second = 0;
 
+        public MockLoadCell(Action<string> action)
+        {
+            Action = action;
+        }
+
         public double Force
         {
             get
             {
                 Debug.WriteLine("loadcell time is : " + second);
+                //Action("this is force");
 
                 if (second == 1)
                 {
@@ -117,6 +123,8 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 //return random.NextDouble() * 10;
             }
         }
+
+        public Action<string> Action;
 
         IPLCInterface IHardwareController.PLCInterface => throw new NotImplementedException();
     }

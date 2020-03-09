@@ -10,7 +10,7 @@ using System.Timers;
 
 namespace RingStiffness.BusinessLayer.MockObjects
 {
-    public class MockTest
+    public class MockTest : IStatusWritable
     {
         public int TestTotalSeconds { get; set; }
         public double TouchForceExpected { get; set; }
@@ -41,6 +41,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
         public int testPassedSecond { get; set; }
 
         public IPLCWrapper PLCCommand { get; set; }
+        public Action<string> WriteStatus { get; set; }
 
         public void TouchPipe()
         {
@@ -61,6 +62,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
           
                 Debug.WriteLine("//////////////////////////////MoveServoMotorUntilPipeIsTouched/////////////////////////////////////////////");
                 Debug.WriteLine("Force is : " + forceSensed);
+                WriteStatus("Pipe has been touched.");
                 Debug.WriteLine("Pipe has been touched.");
                 Debug.WriteLine("/////////////////////////////////////////////////////////////////////////////////////////////////");
                 touchPipe_timer.Enabled = false;
@@ -102,6 +104,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
                 Debug.WriteLine("Time is : " + GetTestSecondsPassed());
                 Debug.WriteLine("Force is : " + currentForce);
                 Debug.WriteLine("////test proper force reached //////");
+                WriteStatus("Test has been started.");
                 Debug.WriteLine("//////////////////////////MoveServoMotorUntilTestProperForce////////////////////////////////////////////");
                 reach_test_properForce_timer.Enabled = false;
                 StartTestOperation();
@@ -111,6 +114,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
 
         private void TestingOperation(Object source, ElapsedEventArgs e)
         {
+
             double deflection = PLCCommand.Extensiometer.Displacement;
             double currentForce = PLCCommand.LoadCell.Force;
             testPassedSecond = GetTestSecondsPassed();
@@ -223,6 +227,7 @@ namespace RingStiffness.BusinessLayer.MockObjects
 
     public delegate void LetResultOut(int param1, double param2);
     public delegate void LetResultInGridOut(int param1, double param2, double param3);
+    public delegate void SetStatus(string str);
 }
 
 

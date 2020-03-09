@@ -19,7 +19,7 @@ namespace RingStiffness.UI.Forms
         private System.Threading.Timer timer;
         private Stopwatch stopWatch = new Stopwatch();
         private TimeSpan currentTimeElapsed;
-        private MockTest test = new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 3, TestTotalSeconds = 15, TestInputWeight = 5 };
+        private MockTest test; //= new MockTest{PLCCommand = new MockPLCWrapper(), TouchForceExpected = 3, TestTotalSeconds = 15, TestInputWeight = 5 };
         
 
 
@@ -43,6 +43,7 @@ namespace RingStiffness.UI.Forms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            test = new MockTest { PLCCommand = new MockPLCWrapper(SetStatusBarText), TouchForceExpected = 3, TestTotalSeconds = 15, TestInputWeight = 5, WriteStatus = SetStatusBarText };
             //plc = new FatekPLCWrapper("COM7", 9600
             plc = new MockPLCWrapper();
             test.DrawForce += Draw;
@@ -159,5 +160,22 @@ namespace RingStiffness.UI.Forms
         {
 
         }
+
+        public void SetStatusBarText(string status)
+        {
+            toolStripStatusLabel.Text = status;
+            //if (statusStrip1.InvokeRequired)
+            //{
+
+            //    //Action<string> deleg = new Action<string>(SetStatusBarText);
+            //}
+            //else
+            //{
+               
+            //}
+        
+        }
+
+
     }
 }
